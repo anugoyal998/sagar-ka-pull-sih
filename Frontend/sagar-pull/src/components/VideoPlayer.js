@@ -1,6 +1,4 @@
-import React from "react";
-import "../assets/VideoPlayer.css";
-
+import "../assets/css/VideoPlayer.css";
 import React, { useEffect, useState } from "react";
 
 const VideoPlayer = () => {
