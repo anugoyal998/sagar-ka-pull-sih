@@ -28,8 +28,8 @@ const VideoPlayer = () => {
 
   return (
     <div className="video_bg">
-      <video className="video_player" controls>
-        <source src={vid} type="video/mp4" />
+      <video src={vid} className="video_player" controls>
+        <source type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </div>

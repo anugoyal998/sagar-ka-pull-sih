@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.11.0",
+    "react-scroll-animation": "^1.0.3",
+    "react-scroll-motion": "^0.3.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
