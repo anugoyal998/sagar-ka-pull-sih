@@ -1,11 +1,14 @@
-import React from 'react'
+import React from "react";
+import VideoPlayer from "./components/VideoPlayer";
+import Navbar from "./components/Navbar";
 
 const App = () => {
   return (
     <div>
-      <h1 className='bg-black'>hello</h1>
+      <Navbar></Navbar>
+      <VideoPlayer></VideoPlayer>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

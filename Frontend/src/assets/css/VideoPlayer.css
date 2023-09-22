@@ -1,0 +1,16 @@
+.video_bg {
+    position: relative;
+    z-index: -1;
+    width: 100%;
+    background-image: url("../blog_hero.gif");
+    background-size: cover;
+}
+
+
+.video_player {
+
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    padding: 6%;
+}
