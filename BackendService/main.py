@@ -10,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import numpy as np
 import math
+import torch
 
 app = FastAPI()
 origins = [
@@ -29,11 +30,14 @@ fire_video_path2 = "examples/fire.mp4"
 model_path = "weights/crowd.pt"
 fire_model_path = "weights/fire-smoke-yolov8.pt"
 
+crowd_count = 0
+fire = False
 
 @app.get("/stream_video")
 async def stream_video():
     cap = cv2.VideoCapture(video_path)
     model = YOLO(model_path, "v8")
+    model = model.to("cuda" if torch.cuda.is_available() else "cpu")
 
     async def generate_frames():
         frame_count = 0
@@ -51,11 +55,11 @@ async def stream_video():
 
     return StreamingResponse(generate_frames(), media_type="multipart/x-mixed-replace; boundary=frame")
 
-
 @app.get("/stream_video2")
 async def stream_video2():
     cap = cv2.VideoCapture(fire_video_path2)
     fire_model = YOLO(fire_model_path)
+    fire_model = fire_model.to("cuda" if torch.cuda.is_available() else "cpu")
 
     async def generate_frames():
         frame_count = 0
@@ -63,7 +67,7 @@ async def stream_video2():
             ret, frame = cap.read()
             frame_count += 1
             if ret == True:
-                results = fire_model(frame)
+                results = fire_model(frame, verbose=False)
                 fire_bool, frame = draw_bbox_fire_smoke(results, frame)
                 global fire
                 fire = fire_bool
@@ -73,7 +77,6 @@ async def stream_video2():
                 break
 
     return StreamingResponse(generate_frames(), media_type="multipart/x-mixed-replace; boundary=frame")
-
 
 @app.websocket("/crowd-count")
 async def crowd_count_handler(websocket: WebSocket):

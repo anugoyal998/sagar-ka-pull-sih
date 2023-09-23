@@ -15,12 +15,11 @@ def draw_bbox_crowd2(model,frame):
     # frame = cv2.resize(frame, (frame_wid, frame_hyt))
 
     # Predict on image
-    detect_params = model.predict(source=[frame], conf=0.45, save=False)
+    detect_params = model.predict(source=[frame], conf=0.45, save=False, verbose=False)
 
     # Convert tensor array to numpy
-    DP = detect_params[0].numpy()
+    DP = detect_params[0].cpu().numpy()
     
-
     if len(DP) != 0:
         count = 0
         for i in range(len(detect_params[0])):
@@ -28,9 +27,9 @@ def draw_bbox_crowd2(model,frame):
 
             boxes = detect_params[0].boxes
             box = boxes[i]  # returns one box
-            clsID = box.cls.numpy()[0]
-            conf = box.conf.numpy()[0]
-            bbox = box.xyxy.numpy()[0]
+            clsID = box.cpu().cls.numpy()[0]
+            conf = box.cpu().conf.numpy()[0]
+            bbox = box.cpu().xyxy.numpy()[0]
 
             cv2.rectangle(
                 frame,

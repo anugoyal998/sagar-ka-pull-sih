@@ -7,10 +7,10 @@ def draw_bbox_fire_smoke(results,img):
     for r in results:
         # print(r.boxes)
         data = r.boxes
-        labels = data.cls.numpy()
-        confidence = data.conf.numpy()
-        bboxes = data.xyxy.numpy()
-        print(labels, confidence, bboxes)
+        labels = data.cpu().cls.numpy()
+        confidence = data.cpu().conf.numpy()
+        bboxes = data.cpu().xyxy.numpy()
+        # print(labels, confidence, bboxes)
         for i, (label, conf, bbox) in enumerate(zip(labels,confidence,bboxes)):
             if int(label) == 1 or int(label) == 3:
                 fire = True
