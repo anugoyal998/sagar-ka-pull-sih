@@ -1,8 +1,47 @@
 // VideoPlayer.js (React frontend)
 import React, { useEffect, useState } from "react";
 import "../assets/css/VideoPlayer.css";
+// import vid from "../assets/result_compressed.mp4";
 
 const VideoPlayer = () => {
+  const [crowdCount, setCrowdCount] = useState(0)
+  const [fire, setFire] = useState("False")
+
+  useEffect(() => {
+    const socket = new WebSocket('ws://localhost:8000/crowd-count');
+    const socket1 = new WebSocket('ws://localhost:8000/fire');
+    socket.onmessage = (event) => {
+      setCrowdCount(event.data)
+    }
+    socket1.onmessage = (event) => {
+      setFire(event.data)
+    }
+
+    return () => {
+      socket.close()
+      socket1.close()
+    }
+  }, [])
+
+
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const res = await fetch("http://localhost:8000/crowd-count")
+  //       const reader = res.body.getReader()
+  //       while (true) {
+  //         const { done, value } = await reader.read();
+  //         if (done) break;
+  //         result = new TextDecoder().decode(value);
+  //         console.log(result);
+  //         setCrowdCount(result);
+  //       }
+  //     } catch (err) {
+        
+  //     }
+  //   })()
+  // },[])
+
   return (
     <div className="video_bg">
       <div className="flex flex-row">
@@ -10,6 +49,10 @@ const VideoPlayer = () => {
           <img
             className="video_player"
             src="http://localhost:8000/stream_video"
+          />
+          <img
+            className="video_player"
+            src="http://localhost:8000/stream_video2"
           />
           <img
             className="video_player"
@@ -30,7 +73,8 @@ const VideoPlayer = () => {
                       <p class="text-sm font-medium truncate ">Crowd Count</p>
                     </div>
                     <div class="inline-flex items-center text-base font-semibold ">
-                      320
+                      <p>{crowdCount}</p>
+                      {/* <img src="http://localhost:8000/crowd-count" /> */}
                     </div>
                   </div>
                 </li>
@@ -41,7 +85,7 @@ const VideoPlayer = () => {
                       <p class="text-sm font-medium truncate ">Fire</p>
                     </div>
                     <div class="inline-flex items-center text-base font-semibold">
-                      False
+                      {fire}
                     </div>
                   </div>
                 </li>
