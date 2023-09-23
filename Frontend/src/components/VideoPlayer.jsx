@@ -28,10 +28,47 @@ const VideoPlayer = () => {
 
   return (
     <div className="video_bg">
-      <video src={vid} className="video_player" controls>
-        <source type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      <div className="flex flex-row">
+        <div className="basis-3/4">
+          <img
+            className="video_player"
+            src="http://localhost:8000/stream_video"
+          />
+        </div>
+        <div className="basis-1/4">
+          <div class="table_panel w-full max-w-md p-4 rounded-lg shadow sm:p-8 bg-gray-800 border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+              <h5 class="text-xl font-bold leading-none">Video Data</h5>
+            </div>
+            <div class="flow-root">
+              <ul role="list" class="divide-y divide-gray-700">
+                <li class="py-3 sm:py-4">
+                  <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0"></div>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-sm font-medium truncate ">Crowd Count</p>
+                    </div>
+                    <div class="inline-flex items-center text-base font-semibold ">
+                      320
+                    </div>
+                  </div>
+                </li>
+                <li class="py-3 sm:py-4">
+                  <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0"></div>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-sm font-medium truncate ">Fire</p>
+                    </div>
+                    <div class="inline-flex items-center text-base font-semibold">
+                      False
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

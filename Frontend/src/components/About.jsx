@@ -6,21 +6,12 @@ import {
   ScrollPage,
   batch,
   Fade,
-  FadeIn,
-  FadeOut,
   Move,
-  MoveIn,
   MoveOut,
   Sticky,
-  StickyIn,
-  StickyOut,
-  Zoom,
-  ZoomIn,
-  ZoomOut,
 } from "react-scroll-motion";
 
 function About() {
-  const ZoomInScrollOut = batch(StickyIn(), FadeIn(), ZoomIn());
   const FadeUp = batch(Fade(), Move(), Sticky());
   return (
     <div className="about_bg">
@@ -33,7 +24,7 @@ function About() {
         <ScrollPage></ScrollPage>
         <ScrollPage>
           <Animator animation={FadeUp}>
-            <span style={{ fontSize: "40px" }}>About Us</span>
+            <span style={{ fontSize: "60px" }}>About Us</span>
           </Animator>
         </ScrollPage>
 
