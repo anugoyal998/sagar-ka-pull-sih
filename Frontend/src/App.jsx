@@ -1,4 +1,12 @@
-import React, { useEffect } from 'react'
+
+import React from "react";
+import VideoPlayer from "./components/VideoPlayer";
+import Navbar from "./components/Navbar";
+import About from "./components/About";
+import ScrollToTop from "./components/ScrollToTop";
+
+
+
 const App = () => {
 
   // useEffect(() => {
@@ -20,10 +28,17 @@ const App = () => {
 
   return (
     <div>
-      <p>anubhav</p>
-      <img src="http://localhost:8000/stream_video" />
-    </div>
-  )
-}
 
-export default App
+      <Navbar></Navbar>
+      <ScrollToTop></ScrollToTop>
+      <VideoPlayer></VideoPlayer>
+      <About></About>
+
+
+
+
+    </div>
+  );
+};
+
+export default App;
