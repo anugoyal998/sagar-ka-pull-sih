@@ -39,11 +39,11 @@ function About() {
               Our comprehensive surveillance solution incorporates a range of
               cutting-edge features, including crowd management, weapon
               detection, fire and smoke detection, garbage detection, and facial
-              recognition. Utilizing advanced AI and ML algorithms, our system
-              ensures public safety through real-time crowd monitoring and early
-              threat detection. It swiftly identifies concealed weapons and
-              triggers alerts to authorities, enhances fire safety with instant
-              fire and smoke detection, maintains clean environments by flagging
+              recognition. Utilizing advanced ML algorithms, our system ensures
+              public safety through real-time crowd monitoring and early threat
+              detection. It swiftly identifies concealed weapons and triggers
+              alerts to authorities, enhances fire safety with instant fire and
+              smoke detection, maintains clean environments by flagging
               littering, and prioritizes privacy by blurring faces during
               routine crowd counting, only revealing faces when a security
               threat is detected. This holistic approach enhances security and
