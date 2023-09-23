@@ -30,22 +30,31 @@ def draw_bbox_crowd2(model,frame):
             box = boxes[i]  # returns one box
             clsID = box.cls.numpy()[0]
             conf = box.conf.numpy()[0]
-            bb = box.xyxy.numpy()[0]
+            bbox = box.xyxy.numpy()[0]
 
             cv2.rectangle(
                 frame,
-                (int(bb[0]), int(bb[1])),
-                (int(bb[2]), int(bb[3])),
+                (int(bbox[0]), int(bbox[1])),
+                (int(bbox[2]), int(bbox[3])),
                 (0,0,225),
                 3,
             )
-
+            top_left = (int(bbox[0]), int(bbox[1]))
+            bottom_right = (int(bbox[2]), int(bbox[3]))
+            x, y = top_left[0], top_left[1]
+            w, h = bottom_right[0] - \
+            top_left[0], bottom_right[1] - top_left[1]
+            ROI = frame[y:y+h, x:x+w]
+            # print(ROI.any())
+            if (ROI.any()):
+                blur = cv2.GaussianBlur(ROI, (51, 51), 0)
+                frame[y:y+h, x:x+w] = blur
             # Display class name and confidence
             font = cv2.FONT_HERSHEY_COMPLEX
             cv2.putText(
                 frame,
                 "Person" + " " + str(round(conf, 3)) + "%",
-                (int(bb[0]), int(bb[1]) - 10),
+                (int(bbox[0]), int(bbox[1]) - 10),
                 font,
                 1,
                 (255, 255, 255),
