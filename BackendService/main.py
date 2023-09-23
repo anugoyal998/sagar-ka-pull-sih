@@ -1,32 +1,57 @@
 from pathlib import Path
 from fastapi import FastAPI
-from fastapi import Request, Response
-from fastapi import Header
-from fastapi.templating import Jinja2Templates
+from fastapi.responses import StreamingResponse
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
+app = FastAPI(debug=True)
+origins = [
+    'http://localhost:3000/',
+    'http://localhost:3000',
+]
+app.add_middleware(
+    CORSMiddleware, 
+    allow_origins = origins
+)
 
-app = FastAPI()
-templates = Jinja2Templates(directory="templates")
-CHUNK_SIZE = 1024*1024
-video_path = Path("crowd_counter/Rush hour at train station in India.mp4")
+    
+import cv2    
+from ultralytics import YOLO
+from PIL import Image
+# from super_gradients.training.models.detection_models.yolo_base import YoloXPostPredictionCallback
+# from model.crowd import crowd_model, draw_bbox_crowd
+from model.fire_smoke import draw_bbox_fire_smoke
 
+video_path = "examples/Apartment Fire in Selah, WA Yakima County.mp4"
+fire_model_path = "weights/fire-smoke-yolov8.pt"
 
-@app.get("/")
-async def read_root(request: Request):
-    return templates.TemplateResponse("index.htm", context={"request": request})
+@app.get("/stream_video")
+async def stream_video():
+    cap = cv2.VideoCapture(video_path)
+    fire_model = YOLO(fire_model_path)
+    async def generate_frames():
+        frame_count = 0
+        while True:
+            ret, frame = cap.read()
+            frame_count += 1
+            if ret == True:
+                # if frame_count > 1:
+                    # break
+                results = fire_model(frame)
+                # annotated_frame = results[0].plot()
+                draw_bbox_fire_smoke(results,frame)
+                # predictions = crowd_model.predict(frame)
+                # crowd_count = draw_bbox_crowd(predictions,annotated_frame)
+                # frame = cv2.putText(annotated_frame,str(crowd_count*2),(100,100),cv2.FONT_HERSHEY_SIMPLEX,1,(255,0,0),2,cv2.LINE_AA)
+                # frame_encoded  = cv2.imencode(".jpg", annotated_frame)[1].tobytes()
+                frame_encoded  = cv2.imencode(".jpg", frame)[1].tobytes()
+                yield (b"--frame\r\nContent-Type: image/jpeg\r\n\r\n" + frame_encoded + b"\r\n")
+            else:
+                break
+            
+    
+    return StreamingResponse(generate_frames(),media_type="multipart/x-mixed-replace; boundary=frame")
+        
 
-
-@app.get("/video")
-async def video_endpoint(range: str = Header(None)):
-    start, end = range.replace("bytes=", "").split("-")
-    start = int(start)
-    end = int(end) if end else start + CHUNK_SIZE
-    with open(video_path, "rb") as video:
-        video.seek(start)
-        data = video.read(end - start)
-        filesize = str(video_path.stat().st_size)
-        headers = {
-            'Content-Range': f'bytes {str(start)}-{str(end)}/{filesize}',
-            'Accept-Ranges': 'bytes'
-        }
-        return Response(data, status_code=206, headers=headers, media_type="video/mp4")
+if __name__== "__main__":
+    uvicorn.run(app,host = 'localhost',port = 8000)
