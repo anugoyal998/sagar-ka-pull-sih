@@ -20,14 +20,15 @@ from PIL import Image
 # from super_gradients.training.models.detection_models.yolo_base import YoloXPostPredictionCallback
 # from model.crowd import crowd_model, draw_bbox_crowd
 from model.fire_smoke import draw_bbox_fire_smoke
-
-video_path = "examples/Apartment Fire in Selah, WA Yakima County.mp4"
-fire_model_path = "weights/fire-smoke-yolov8.pt"
+# from model.crowd import draw_bbox_crowd
+from model.crowd2 import draw_bbox_crowd2
+video_path = "examples/video4.mp4"
+fire_model_path = "weights/crowd.pt"
 
 @app.get("/stream_video")
 async def stream_video():
     cap = cv2.VideoCapture(video_path)
-    fire_model = YOLO(fire_model_path)
+    fire_model = YOLO(fire_model_path,"v8")
     async def generate_frames():
         frame_count = 0
         while True:
@@ -36,9 +37,10 @@ async def stream_video():
             if ret == True:
                 # if frame_count > 1:
                     # break
-                results = fire_model(frame)
+                # results = fire_model(frame)
                 # annotated_frame = results[0].plot()
-                draw_bbox_fire_smoke(results,frame)
+                frame,count = draw_bbox_crowd2(fire_model,frame)
+                # print("The people in the frame is",count)
                 # predictions = crowd_model.predict(frame)
                 # crowd_count = draw_bbox_crowd(predictions,annotated_frame)
                 # frame = cv2.putText(annotated_frame,str(crowd_count*2),(100,100),cv2.FONT_HERSHEY_SIMPLEX,1,(255,0,0),2,cv2.LINE_AA)
