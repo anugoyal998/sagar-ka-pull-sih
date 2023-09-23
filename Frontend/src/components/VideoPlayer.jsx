@@ -1,30 +1,46 @@
 // VideoPlayer.js (React frontend)
 import React, { useEffect, useState } from "react";
 import "../assets/css/VideoPlayer.css";
-import vid from "../assets/result_compressed.mp4";
+// import vid from "../assets/result_compressed.mp4";
 
 const VideoPlayer = () => {
-  //   const [videoUrl, setVideoUrl] = useState("");
+  const [crowdCount, setCrowdCount] = useState(0)
+  const [fire, setFire] = useState("False")
 
-  //   useEffect(() => {
-  //     async function fetchVideo() {
-  //       try {
-  //         const response = await fetch("http://localhost:53090/video"); // Assuming your FastAPI server is running on the same host as your React app
-  //         if (response.ok) {
-  //           const blob = await response.blob();
-  //           console.log("Video console");
-  //           const videoUrl = URL.createObjectURL(blob);
-  //           setVideoUrl(videoUrl);
-  //         } else {
-  //           console.error("Failed to fetch video");
-  //         }
-  //       } catch (error) {
-  //         console.error("Error fetching video:", error);
+  useEffect(() => {
+    const socket = new WebSocket('ws://localhost:8000/crowd-count');
+    const socket1 = new WebSocket('ws://localhost:8000/fire');
+    socket.onmessage = (event) => {
+      setCrowdCount(event.data)
+    }
+    socket1.onmessage = (event) => {
+      setFire(event.data)
+    }
+
+    return () => {
+      socket.close()
+      socket1.close()
+    }
+  }, [])
+
+
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const res = await fetch("http://localhost:8000/crowd-count")
+  //       const reader = res.body.getReader()
+  //       while (true) {
+  //         const { done, value } = await reader.read();
+  //         if (done) break;
+  //         result = new TextDecoder().decode(value);
+  //         console.log(result);
+  //         setCrowdCount(result);
   //       }
+  //     } catch (err) {
+        
   //     }
-
-  //     fetchVideo();
-  //   }, []);
+  //   })()
+  // },[])
 
   return (
     <div className="video_bg">
@@ -33,6 +49,10 @@ const VideoPlayer = () => {
           <img
             className="video_player"
             src="http://localhost:8000/stream_video"
+          />
+          <img
+            className="video_player"
+            src="http://localhost:8000/stream_video2"
           />
         </div>
         <div className="basis-1/4">
@@ -49,7 +69,8 @@ const VideoPlayer = () => {
                       <p class="text-sm font-medium truncate ">Crowd Count</p>
                     </div>
                     <div class="inline-flex items-center text-base font-semibold ">
-                      320
+                      <p>{crowdCount}</p>
+                      {/* <img src="http://localhost:8000/crowd-count" /> */}
                     </div>
                   </div>
                 </li>
@@ -60,7 +81,7 @@ const VideoPlayer = () => {
                       <p class="text-sm font-medium truncate ">Fire</p>
                     </div>
                     <div class="inline-flex items-center text-base font-semibold">
-                      False
+                      {fire}
                     </div>
                   </div>
                 </li>
