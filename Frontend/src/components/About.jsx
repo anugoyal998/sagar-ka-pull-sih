@@ -24,19 +24,31 @@ function About() {
         <ScrollPage></ScrollPage>
         <ScrollPage>
           <Animator animation={FadeUp}>
-            <span style={{ fontSize: "60px" }}>About Us</span>
+            <span style={{ fontSize: "60px" }}>About</span>
           </Animator>
         </ScrollPage>
 
         <ScrollPage>
           <Animator animation={batch(Fade(), Sticky())}>
-            <span style={{ fontSize: "40px" }}>Crowd Management System</span>
+            <span style={{ fontSize: "40px" }}>
+              {" "}
+              Revolutionizing Safety and Efficiency with Macine Learning"
+            </span>
             <br />
-            <span style={{ fontSize: "30px" }}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum
-              similique nihil necessitatibus enim! Commodi vel dolor excepturi
-              non, nemo obcaecati accusamus est? Voluptate sit alias commodi.
-              Esse qui deserunt minus.
+            <span style={{ fontSize: "20px" }}>
+              Our comprehensive surveillance solution incorporates a range of
+              cutting-edge features, including crowd management, weapon
+              detection, fire and smoke detection, garbage detection, and facial
+              recognition. Utilizing advanced AI and ML algorithms, our system
+              ensures public safety through real-time crowd monitoring and early
+              threat detection. It swiftly identifies concealed weapons and
+              triggers alerts to authorities, enhances fire safety with instant
+              fire and smoke detection, maintains clean environments by flagging
+              littering, and prioritizes privacy by blurring faces during
+              routine crowd counting, only revealing faces when a security
+              threat is detected. This holistic approach enhances security and
+              safety while respecting individual privacy and fostering civic
+              responsibility.
             </span>
           </Animator>
         </ScrollPage>
