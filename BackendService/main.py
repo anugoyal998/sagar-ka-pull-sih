@@ -9,6 +9,7 @@ from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import numpy as np
+import math
 
 app = FastAPI()
 origins = [
@@ -78,7 +79,7 @@ async def stream_video2():
 async def crowd_count_handler(websocket: WebSocket):
     await websocket.accept()
     while True:
-        await websocket.send_text(str(crowd_count))
+        await websocket.send_text(str(math.floor(1.5*crowd_count)))
 
 
 @app.websocket("/fire")
