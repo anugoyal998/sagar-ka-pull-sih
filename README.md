@@ -37,7 +37,7 @@
 
 5. **Results** - 
     - The web application provided real-time monitoring capabilities for crowd management, crime prevention, and work monitoring.
-    - RCNN and YOLO algorithms successfully detected guns, fire, smoke, acts of assault, garbage and gave a crowd count.
+    - RCNN and YOLO algorithms successfully gave a crowd count, detected fire, smoke, garbage, and weapons and  acts of assault .
     - Authorities received immediate alerts, ensuring swift response to disruptions.
 
 6. **Discussion** - 
