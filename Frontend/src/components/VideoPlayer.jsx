@@ -54,6 +54,10 @@ const VideoPlayer = () => {
             className="video_player"
             src="http://localhost:8000/stream_video2"
           />
+          <img
+            className="video_player"
+            src="http://localhost:8000/stream_video2"
+          />
         </div>
         <div className="basis-1/4">
           <div class="table_panel w-full max-w-md p-4 rounded-lg shadow sm:p-8 bg-gray-800 border-gray-700">
